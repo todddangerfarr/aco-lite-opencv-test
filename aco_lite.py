@@ -1,6 +1,13 @@
 # imports
+import argparse
 import numpy as np
 import cv2
+
+# construct the argument parse and parse the arguments
+ap = argparse.ArgumentParser()
+ap.add_argument("-i", "--image", required=True,
+    help="path to the input image")
+args = vars(ap.parse_args())
 
 def distance_between_points(point_1, point_2):
     """ Find distance between points sqrt((x2 - x1)**2 + (y2 - y1)**2). """
@@ -69,8 +76,7 @@ def draw_path(img, rect, offset, length_offset=15, color=(0, 255, 0)):
 
 
 # read in color image and convert a copy to grayscale
-img_color = cv2.imread('images/outsole_test.jpg')
-# img_color = cv2.imread('images/outsole_rotated.png')
+img_color = cv2.imread(args["image"])
 img_grayscale = cv2.cvtColor(img_color, cv2.COLOR_BGR2GRAY)
 cv2.imshow('Original', img_grayscale)
 cv2.waitKey(0)
@@ -99,7 +105,7 @@ cv2.circle(img_color, (cX, cY), 7, (255, 0, 0), -1)
 
 # draw the bounding rectangle
 rect = draw_bounding_rectangle(img_color, cnts)
-points = draw_path(img_color, rect, 30)
+points = draw_path(img_color, rect, 20)
 print points
 
 
